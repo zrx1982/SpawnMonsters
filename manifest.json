@@ -6,5 +6,5 @@
   "UniqueID": "Berisan.SpawnMonsters",
   "EntryDll": "Spawn Monsters.dll",
   "MinimumApiVersion": "2.9",
-  "UpdateKeys": []
+  "UpdateKeys": [ "Nexus:3201" ]
 }
