@@ -21,7 +21,7 @@ namespace Spawn_Monsters
 		public bool ShouldShow { get; set; } = true;
 		private Texture2D placementTile;
 
-		public MonsterPlaceMenu(string name, int arealevel = 0)
+		public MonsterPlaceMenu(string name, object[] args, int arealevel = 0)
 			: base(0, 0, Game1.viewport.Width, Game1.viewport.Height) {
 
 			Assembly a = Assembly.GetAssembly(new Monster().GetType());
@@ -29,19 +29,32 @@ namespace Spawn_Monsters
 			switch (name) {
 				case "Green Slime":
 					Monster = Type.GetType("StardewValley.Monsters.GreenSlime, " + a);
-					Args = new object[1];
+					Args = new object[2];
+					Args[1] = args[0];
 					break;
 				case "Bat":
 					Monster = Type.GetType("StardewValley.Monsters.Bat, " + a);
-					Args = new object[1];
+					if (args != null) {
+						Args = new object[2];
+						Args[1] = args[0];
+					} else {
+						Args = new object[1];
+					}
+					
 					break;
 				case "Bug":
 					Monster = Type.GetType("StardewValley.Monsters.Bug, " + a);
 					Args = new object[2];
+					Args[1] = args[0];
+
+					if((int)args[0] == 121) {
+						Game1.addHUDMessage(new HUDMessage("Be aware that armored bugs are unkillable.",2));
+					}
 					break;
 				case "Duggy":
 					Monster = new DuggyFixed(new Vector2(0,0)).GetType();
 					Args = new object[1];
+					Game1.addHUDMessage(new HUDMessage("Duggies can only be spawned on diggable tiles.", 2));
 					break;
 				case "Dust Spirit":
 					Monster = Type.GetType("StardewValley.Monsters.DustSpirit, " + a);
@@ -49,14 +62,27 @@ namespace Spawn_Monsters
 					break;
 				case "Fly":
 					Monster = Type.GetType("StardewValley.Monsters.Fly, " + a);
-					Args = new object[1];
+					if(args != null) {
+						Args = new object[2];
+						Args[1] = args[0];
+					} else Args = new object[1];
 					break;
 				case "Ghost":
 					Monster = Type.GetType("StardewValley.Monsters.Ghost, " + a);
-					Args = new object[1];
+					if (args != null) {
+						Args = new object[2];
+						Args[1] = args[0];
+					} else Args = new object[1];
 					break;
 				case "Grub":
 					Monster = Type.GetType("StardewValley.Monsters.Grub, " + a);
+					if (args != null) {
+						Args = new object[2];
+						Args[1] = args[0];
+					} else Args = new object[1];
+					break;
+				case "Lava Crab":
+					Monster = Type.GetType("StardewValley.Monsters.LavaCrab, " + a);
 					Args = new object[1];
 					break;
 				case "Metal Head":
@@ -69,11 +95,19 @@ namespace Spawn_Monsters
 					break;
 				case "Rock Crab":
 					Monster = Type.GetType("StardewValley.Monsters.RockCrab, " + a);
-					Args = new object[1];
+					if(args != null) {
+						Args = new object[2];
+						Args[1] = "Iridium Crab";
+					} else {
+						Args = new object[1];
+					}
 					break;
 				case "Stone Golem":
 					Monster = Type.GetType("StardewValley.Monsters.RockGolem, " + a);
-					Args = new object[1];
+					if(args != null) {
+						Args = new object[2];
+						Args[1] = args[0];
+					} else Args = new object[1];
 					break;
 				case "Serpent":
 					Monster = Type.GetType("StardewValley.Monsters.Serpent, " + a);
@@ -100,7 +134,7 @@ namespace Spawn_Monsters
 			Area = arealevel;
 			ok = new ClickableTextureComponent(new Rectangle(16, 16, 60, 60), Game1.mouseCursors, new Rectangle(128, 256, 63, 63), 1f, false);
 			this.placementTile = Game1.content.Load<Texture2D>("LooseSprites\\buildingPlacementTiles");
-
+			Game1.addHUDMessage(new HUDMessage($"Click anywhere to spawn a {Monster.Name.Replace("Fixed", "").Replace("Green", "")}", null));
 		}
 
 		public override void receiveLeftClick(int x, int y, bool playSound = true) {
@@ -109,11 +143,8 @@ namespace Spawn_Monsters
 				Game1.playSound("bigDeSelect");
 				return;
 			}
-			//Build args
+
 			Args[0] = new Vector2(Game1.currentCursorTile.X, Game1.currentCursorTile.Y); //Every monster has a position argument at the first arg
-			if (Args.Length == 2) {
-				Args[1] = Area;
-			}
 
 			//spawn monster
 			if (IsOkToPlace((int)Game1.currentCursorTile.X, (int)Game1.currentCursorTile.Y)) {
@@ -141,10 +172,6 @@ namespace Spawn_Monsters
 		}
 
 		public override void draw(SpriteBatch b) {
-			if (ShouldShow) {
-				Game1.drawDialogueBox(0, Game1.viewport.Height - 400, 280, 300, false, true, (string)null, false, false);
-				b.DrawString(Game1.dialogueFont, $"Click\nanywhere\nto spawn a\n{Monster.Name.Replace("Fixed", "")}", new Vector2(35, Game1.viewport.Height - 300), Color.Black);
-			}
 
 			if (IsOkToPlace((int)Game1.currentCursorTile.X, (int)Game1.currentCursorTile.Y)) {
 				b.Draw(this.placementTile, new Vector2((Game1.currentCursorTile.X * Game1.tileSize) - Game1.viewport.X, (Game1.currentCursorTile.Y * Game1.tileSize) - Game1.viewport.Y), new Rectangle(0, 0, 64, 64), Color.White);
