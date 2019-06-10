@@ -18,7 +18,7 @@ namespace Spawn_Monsters
 			buttons = new List<ColoredButtonComponent>();
 			for (int i = 0; i < names.Length; i++) {
 				monsters.Add(new ClickableMonsterComponent(names[i], xPos, yPos, width, height, spriteWidth, spriteHeight) {
-					args = (object[])arguments[i]
+					arg = (object)arguments[i]
 				});
 				int offset = (width - names.Length * 40) / 2 + 20;
 				buttons.Add(new ColoredButtonComponent(xPos + i * 40 + offset, yPos + height - 70, 30, 30, colors[i], i));
@@ -28,20 +28,12 @@ namespace Spawn_Monsters
 
 		}
 
-		public void performHoverAction(int x, int y) {
-
-			AnimatedSprite sprite = monsters[current].sprite;
-
-			if (containsPoint(x, y)) {
-				if (sprite.CurrentAnimation == null) {
-					sprite.Animate(Game1.currentGameTime, monsters[current].StartFrame, monsters[current].NumberOfFrames, monsters[current].Interval);
-				}
-			} else {
-				sprite.StopAnimation();
-			}
+		public void PerformHoverAction(int x, int y) {
+			monsters[current].PerformHoverAction(x, y);
 		}
 
-		public void receiveLeftClick(int x, int y) {
+		public void ReceiveLeftClick(int x, int y) {
+			//Check if the click landed on a colored button
 			foreach(ColoredButtonComponent c in buttons) {
 				if(c.containsPoint(x, y)) {
 					current = c.index;
@@ -49,30 +41,31 @@ namespace Spawn_Monsters
 					return;
 				}
 			}
+
+			//Otherwise check if the click landed on a monster
 			if (containsPoint(x, y)) {
-				Game1.activeClickableMenu = new MonsterPlaceMenu(monsters[current].name.Replace("Armored ", "")
-				.Replace("Iridium Crab", "Rock Crab")
-				.Replace("Iridium Bat", "Bat")
-				.Replace("Lava Bat", "Bat")
-				.Replace("Frost Bat", "Bat")
-				.Replace("Carbon ","")
-				.Replace("Wilderness", "Stone"), monsters[current].args);
+				Game1.activeClickableMenu = new MonsterPlaceMenu(monsters[current].name, monsters[current].arg);
 				
 			}
 		}
 
 
 		public void Draw(SpriteBatch b) {
+			//Draw currently selected monster
 			if (monsters[current].name == "Green Slime" || monsters[current].name == "Fly" || monsters[current].name == "Grub") monsters[current].Draw(b, buttons[current].color);
 			else monsters[current].Draw(b);
+
+			//Draw the rectangle around the currently selected colored button
 			Rectangle r = buttons[current].bounds;
 			r.Width += 10;
 			r.Height += 10;
 			r.X -= 5;
 			r.Y -= 5;
 			b.Draw(Game1.staminaRect, r, Color.IndianRed);
+
+			//Draw all colored buttons
 			foreach(ColoredButtonComponent button in buttons) {
-				button.draw(b);
+				button.Draw(b);
 			}
 		}
 	}

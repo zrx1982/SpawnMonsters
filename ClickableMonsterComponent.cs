@@ -14,7 +14,7 @@ namespace Spawn_Monsters
 		public int StartFrame;
 		public int NumberOfFrames;
 		public float Interval;
-		public object[] args;
+		public object arg;
 
 
 		public ClickableMonsterComponent(string textureName, int xPosition, int yPosition, int width, int height, int spriteWidth = 16, int spriteHeight = 24, int startFrame = 0, int numberOfFrames = 4, float interval = 100)
