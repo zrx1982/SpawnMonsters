@@ -47,17 +47,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TabComponent.cs" />
-    <Compile Include="MonsterMenuTab.cs" />
-    <Compile Include="MonsterSettingsTab.cs" />
-    <Compile Include="ColoredButtonComponent.cs" />
-    <Compile Include="DuggyFixed.cs" />
+    <Compile Include="MenuElements\TabComponent.cs" />
+    <Compile Include="MonsterMenu\MonsterMenuTab.cs" />
+    <Compile Include="MonsterMenu\MonsterSettingsTab.cs" />
+    <Compile Include="MenuElements\ColoredButtonComponent.cs" />
+    <Compile Include="Monsters\DuggyFixed.cs" />
     <Compile Include="ModConfig.cs" />
-    <Compile Include="MonsterPlaceMenu.cs" />
-    <Compile Include="ClickableMonsterComponent.cs" />
-    <Compile Include="MonsterMenu.cs" />
+    <Compile Include="MonsterMenu\MonsterPlaceMenu.cs" />
+    <Compile Include="MenuElements\ClickableMonsterComponent.cs" />
+    <Compile Include="MonsterMenu\MonsterMenu.cs" />
     <Compile Include="ModEntry.cs" />
-    <Compile Include="MultiClickableMonsterComponent.cs" />
+    <Compile Include="MenuElements\MultiClickableMonsterComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
