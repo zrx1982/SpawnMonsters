@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -61,12 +62,18 @@ namespace Spawn_Monsters
 					//Ensure provided coordinatees are actually coordinates
 					try {
 						//Determine X tile
-						if (args.Length >= 2) { if (!args[1].Equals("~")) xTile = int.Parse(args[1]); }
-
+						if (args.Length >= 2) {
+							xTile = (int)new DataTable().Compute(args[1].Replace(config.FarmerPositionCharacter.ToString(), xTile.ToString()), null);
+						}
+						
 						//Determine Y tile
-						if (args.Length >= 3) { if (!args[1].Equals("~")) yTile = int.Parse(args[2]); }
-					} catch (Exception) {
-						Monitor.Log("Arguments 1 and 2 must be coordinates or '~' to use the Farmer's coordinates! Make sure you don't add any brackets!");
+						if (args.Length >= 3) {
+							yTile = (int)new DataTable().Compute(args[2].Replace(config.FarmerPositionCharacter.ToString(), yTile.ToString()), null);
+						}
+
+					} catch (Exception e) {
+						Console.Error.WriteLine(e.Message);
+						Monitor.Log($"Arguments 1 and 2 must be coordinates or '{config.FarmerPositionCharacter}' in place of the Farmer's coordinates! Make sure you don't add any brackets!");
 						return;
 					}
 
@@ -117,7 +124,7 @@ namespace Spawn_Monsters
 							case "shadowShaman": entity = new ShadowShaman(pos); break;
 							case "skeleton": entity = new Skeleton(pos); break;
 							case "squidKid": entity = new SquidKid(pos); break;
-							case "duggy": entity = new Duggy(pos); break;
+							case "duggy": entity = new DuggyFixed(pos); break;
 							case "dustSpirit": entity = new DustSpirit(pos); break;
 						}
 						if (entity != null) {
