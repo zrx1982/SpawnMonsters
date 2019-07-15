@@ -3,5 +3,6 @@
 	public class ModConfig
 	{
 		public StardewModdingAPI.SButton MenuKey { get; set; } = StardewModdingAPI.SButton.P;
+		public char FarmerPositionCharacter { get; set; } = '~';
 	}
 }
