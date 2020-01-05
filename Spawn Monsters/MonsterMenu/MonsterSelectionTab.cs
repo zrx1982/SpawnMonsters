@@ -4,13 +4,10 @@ using StardewValley;
 using StardewValley.Menus;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Spawn_Monsters
 {
-	class MonsterMenuTab : IClickableMenu
+    class MonsterSelectionTab : IClickableMenu
 	{
 		private ClickableTextureComponent leftArrow;
 		private ClickableTextureComponent rightArrow;
@@ -18,7 +15,7 @@ namespace Spawn_Monsters
 		private List<List<ClickableComponent>> Pages { get; set; } = new List<List<ClickableComponent>>();
 		private int currentPage = 0;
 
-		public MonsterMenuTab() : base(0, 0, 0, 0, true) {
+		public MonsterSelectionTab() : base(0, 0, 0, 0, true) {
 			this.width = 600;
 			this.height = 600;
 			this.xPositionOnScreen = Game1.viewport.Width / 2 - this.width / 2;
@@ -28,13 +25,13 @@ namespace Spawn_Monsters
 			rightArrow = new ClickableTextureComponent(new Rectangle(this.xPositionOnScreen + this.width / 3 * 2, this.yPositionOnScreen + this.height, 44, 48), Game1.mouseCursors, new Rectangle(365, 495, 12, 11), 4f, false);
 
 			List<ClickableComponent> page0 = new List<ClickableComponent> {
-				new MultiClickableMonsterComponent(new string[]{ "Green Slime", "Green Slime", "Green Slime", "Green Slime", "Green Slime", "Green Slime" }, new Color[]{ Color.Green, Color.DarkTurquoise, Color.Red, Color.Purple, Color.Yellow, Color.Black }, xPositionOnScreen, yPositionOnScreen, this.width / 2, this.height / 2, new object[]{ 0, 40, 80, 121, new Color(255, 255, 50), new Color(40 + r.Next(10), 40 + r.Next(10), 40 + r.Next(10)) } , 16, 24) {
+				new MultiClickableMonsterComponent(new string[]{ "Green Slime", "Green Slime", "Green Slime", "Green Slime", "Green Slime", "Green Slime", "Green Slime" }, new Color[]{ Color.Green, Color.DarkTurquoise, Color.Red, Color.Purple, Color.Yellow, Color.Black, Color.DarkOrange }, xPositionOnScreen, yPositionOnScreen, this.width / 2, this.height / 2, new object[]{ 0, 40, 80, 121, new Color(255, 255, 50), new Color(40 + r.Next(10), 40 + r.Next(10), 40 + r.Next(10)), 77377 } , 16, 24) {
 					myID = 0,
 					rightNeighborID = 1,
 					downNeighborID = 2,
 				},
 
-				new MultiClickableMonsterComponent(new string[]{ "Bat", "Frost Bat", "Lava Bat", "Iridium Bat"}, new Color[]{ Color.Brown, Color.Blue, Color.DarkRed, Color.Purple}, xPositionOnScreen + this.width / 2, yPositionOnScreen, this.width / 2, this.height / 2, new object[]{ null, 40, 80, 171 }) {
+				new MultiClickableMonsterComponent(new string[]{ "Bat", "Frost Bat", "Lava Bat", "Iridium Bat", "Haunted Skull", "Iridium Bat"}, new Color[]{ Color.Brown, Color.Blue, Color.DarkRed, Color.Purple, Color.DarkGray, Color.BlueViolet}, xPositionOnScreen + this.width / 2, yPositionOnScreen, this.width / 2, this.height / 2, new object[]{ null, 40, 80, 171, 77377, -666 }) {
 					myID = 1,
 					leftNeighborID = 0,
 					downNeighborID = 3
@@ -134,13 +131,19 @@ namespace Spawn_Monsters
 				}
 			};
 
-			//PAGE 4
-			List<ClickableComponent> page4 = new List<ClickableComponent> {
-				new ClickableMonsterComponent("Squid Kid", xPositionOnScreen, yPositionOnScreen, this.width / 2, this.height / 2, 16, 16) {
-					myID = 0,
-					rightNeighborID = 1,
-					downNeighborID = 2
-				}
+            //PAGE 4
+            List<ClickableComponent> page4 = new List<ClickableComponent> {
+                new ClickableMonsterComponent("Squid Kid", xPositionOnScreen, yPositionOnScreen, this.width / 2, this.height / 2, 16, 16) {
+                    myID = 0,
+                    rightNeighborID = 1,
+                    downNeighborID = 2
+                },
+
+                new ClickableMonsterComponent("Pepper Rex", xPositionOnScreen, yPositionOnScreen, this.width/2, this.height/2){
+                    myID = 1,
+                    leftNeighborID = 0,
+                    downNeighborID = 3
+                }
 			};
 
 			Pages.Add(page0);
