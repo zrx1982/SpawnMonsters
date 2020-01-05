@@ -88,6 +88,7 @@ namespace Spawn_Monsters.MonsterSpawning
                     break;
                 }
             }
+            Monitor.Log($"Spawned {amount} {MonsterData.GetMonsterData(monster).Displayname} at {location}", LogLevel.Info);
         }
 
         public void KillEverything() {

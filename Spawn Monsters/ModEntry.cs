@@ -25,6 +25,7 @@ namespace Spawn_Monsters
             helper.ConsoleCommands.Add("monster_spawn", "Spawns a Monster.", SpawnEntity);
             helper.ConsoleCommands.Add("monster_list", "Shows a lists of all monsters available to spawn.", MonsterList);
             helper.ConsoleCommands.Add("monster_menu", "Shows a menu for spawning monsters", MonsterMenu);
+            helper.ConsoleCommands.Add("farmer_position", "Prints the Farmer's current position", FarmerPosition);
 
             config = helper.ReadConfig<ModConfig>();
 
@@ -74,7 +75,7 @@ namespace Spawn_Monsters
                     return;
                 }
                 MonsterData.Monster m = MonsterData.ForName(args[0]);
-                Vector2 location = new Vector2(Game1.player.getTileX(), Game1.player.getTileY());
+                Vector2 location = Game1.player.getTileLocation();
 
                 if (m.Equals((MonsterData.Monster)(-1))) {
                     Monitor.Log($"There is no Monster with the name {args[0]}", LogLevel.Info);
@@ -180,7 +181,8 @@ namespace Spawn_Monsters
             }
         }
 
-
-
+        public void FarmerPosition(string command, string[] args) {
+            Monitor.Log("The Farmer's coordinates are: " + Game1.player.getTileLocation(), LogLevel.Info);
+        }
     }
 }
